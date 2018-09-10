@@ -14,6 +14,7 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
     using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
     using Prism.DolphinsMemory.Server.Data;
+    using Prism.DolphinsMemory.Server.Security;
 
     /// <summary>
     /// The security domain
@@ -29,12 +30,12 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
         /// <summary>
         /// The authentication repository
         /// </summary>
-        private IAuthenticationRepository authenticationRepository;
+        private readonly IAuthenticationRepository authenticationRepository;
 
         /// <summary>
         /// The user repository
         /// </summary>
-        private IUserRepository userRepository;
+        private readonly IUserRepository userRepository;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SecurityDomain" /> class.
@@ -86,12 +87,7 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
         /// <inheritdoc />
         public byte[] Hash(string password, byte[] salt, int iterations)
         {
-            return KeyDerivation.Pbkdf2(
-                password,
-                salt,
-                KeyDerivationPrf.HMACSHA512,
-                iterations,
-                256 / 8);
+            return PasswordHasher.Hash(password, salt, iterations);
         }
     }
 }

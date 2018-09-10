@@ -74,7 +74,7 @@ namespace Prism.DolphinsMemory.Server.Api
         /// <param name="services">The services.</param>
         private void ConfigureBusinessServices(IServiceCollection services)
         {
-            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddScoped<IAuthenticationDomain, AuthenticationDomain>();
             services.AddScoped<ISecurityDomain, SecurityDomain>();
         }
 
@@ -94,6 +94,7 @@ namespace Prism.DolphinsMemory.Server.Api
         /// <param name="services">The services.</param>
         private void ConfigureDataServices(IServiceCollection services)
         {
+            services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
         }
     }

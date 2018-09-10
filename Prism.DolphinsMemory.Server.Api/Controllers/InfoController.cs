@@ -25,7 +25,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
         /// </summary>
         /// <returns>The version of the current assembly</returns>
         [Route("api/info/version")]
-        public JsonResult GetVersion()
+        public IActionResult GetVersion()
         {
             var version = new ApiVersion
                               {

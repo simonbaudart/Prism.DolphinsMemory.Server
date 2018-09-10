@@ -9,11 +9,20 @@ namespace Prism.DolphinsMemory.Server.Data
     using System;
     using System.Linq;
 
+    using Prism.DolphinsMemory.Server.Model;
+
     /// <summary>
     /// Store data for authentication
     /// </summary>
     public interface IAuthenticationRepository
     {
+        /// <summary>
+        /// Gets the user password.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <returns>The salted password information</returns>
+        AuthenticationPassword GetUserPassword(Guid userId);
+
         /// <summary>
         /// Update or insert the authentication password.
         /// </summary>

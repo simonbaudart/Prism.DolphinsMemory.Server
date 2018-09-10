@@ -48,7 +48,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
         /// <returns>The new password</returns>
         [HttpGet]
         [Route("api/tech/reset-authentication-password/{userName}")]
-        public JsonResult ResetAuthenticationPassword(string userName)
+        public IActionResult ResetAuthenticationPassword(string userName)
         {
             var newPassword = this.securityDomain.GeneratePassword();
             var salt = this.securityDomain.GenerateSalt();
