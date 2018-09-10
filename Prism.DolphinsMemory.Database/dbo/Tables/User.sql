@@ -1,0 +1,11 @@
+﻿CREATE TABLE [dbo].[User] (
+    [Id]       UNIQUEIDENTIFIER NOT NULL,
+    [UserName] NVARCHAR (250)   NOT NULL,
+    CONSTRAINT [PK_Users] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+
+
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [IX_User_UserName]
+    ON [dbo].[User]([UserName] ASC);
+

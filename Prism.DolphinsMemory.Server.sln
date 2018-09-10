@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DolphinsMemory.Server
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DolphinsMemory.Server.Api", "Prism.DolphinsMemory.Server.Api\Prism.DolphinsMemory.Server.Api.csproj", "{081947D0-2A69-4024-8B45-1917608D3A06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.DolphinsMemory.Server", "Prism.DolphinsMemory.Server\Prism.DolphinsMemory.Server.csproj", "{26F93F75-2306-45D0-A82B-800E3636A720}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DolphinsMemory.Server", "Prism.DolphinsMemory.Server\Prism.DolphinsMemory.Server.csproj", "{26F93F75-2306-45D0-A82B-800E3636A720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Prism.DolphinsMemory.Server.Data", "Prism.DolphinsMemory.Server.Data\Prism.DolphinsMemory.Server.Data.csproj", "{368728A2-42DB-4E31-BF34-17449B3D12B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Prism.DolphinsMemory.Server.Data", "Prism.DolphinsMemory.Server.Data\Prism.DolphinsMemory.Server.Data.csproj", "{368728A2-42DB-4E31-BF34-17449B3D12B9}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Prism.DolphinsMemory.Database", "Prism.DolphinsMemory.Database\Prism.DolphinsMemory.Database.sqlproj", "{D7B1F284-9E17-4B94-BA31-5ED1F781B23D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,12 @@ Global
 		{368728A2-42DB-4E31-BF34-17449B3D12B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{368728A2-42DB-4E31-BF34-17449B3D12B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{368728A2-42DB-4E31-BF34-17449B3D12B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7B1F284-9E17-4B94-BA31-5ED1F781B23D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7B1F284-9E17-4B94-BA31-5ED1F781B23D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7B1F284-9E17-4B94-BA31-5ED1F781B23D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D7B1F284-9E17-4B94-BA31-5ED1F781B23D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7B1F284-9E17-4B94-BA31-5ED1F781B23D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7B1F284-9E17-4B94-BA31-5ED1F781B23D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
