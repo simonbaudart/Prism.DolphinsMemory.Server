@@ -84,8 +84,8 @@ namespace Prism.DolphinsMemory.Server.Api
         /// <param name="services">The services.</param>
         private void ConfigureConfigurationServices(IServiceCollection services)
         {
-            var connectionStrings = this.configuration.GetSection("ConnectionStrings");
-            services.Configure<ConnectionStrings>(connectionStrings);
+            services.Configure<ConnectionStrings>(this.configuration.GetSection("ConnectionStrings"));
+            services.Configure<SecuritySettings>(this.configuration.GetSection("Security"));
         }
 
         /// <summary>

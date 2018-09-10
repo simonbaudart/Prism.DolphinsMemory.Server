@@ -13,8 +13,10 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
     using System.Security.Cryptography;
     using System.Text;
 
+    using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
 
+    using Prism.DolphinsMemory.Server.Configuration;
     using Prism.DolphinsMemory.Server.Data;
     using Prism.DolphinsMemory.Server.Model;
     using Prism.DolphinsMemory.Server.Security;
@@ -36,6 +38,11 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
         private readonly IUserRepository userRepository;
 
         /// <summary>
+        /// The security settings
+        /// </summary>
+        private readonly SecuritySettings securitySettings;
+
+        /// <summary>
         /// The encrypt byte key
         /// </summary>
         private byte[] encryptByteKey;
@@ -50,10 +57,12 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
         /// <param name="authenticationRepository">The authentication repository.</param>
-        public AuthenticationDomain(IUserRepository userRepository, IAuthenticationRepository authenticationRepository)
+        /// <param name="securitySettingsOptions">The security settings options.</param>
+        public AuthenticationDomain(IUserRepository userRepository, IAuthenticationRepository authenticationRepository, IOptions<SecuritySettings> securitySettingsOptions)
         {
             this.userRepository = userRepository;
             this.authenticationRepository = authenticationRepository;
+            this.securitySettings = securitySettingsOptions.Value;
         }
 
         /// <summary>
@@ -71,10 +80,8 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
                     return this.encryptByteKey;
                 }
 
-                var password = "ThisIsMyKeyForDerivation";
-                var salt = new string(password.Reverse().ToArray());
-
-                var derivation = new Rfc2898DeriveBytes(password, Encoding.Default.GetBytes(salt), 42);
+                var salt = new string(this.securitySettings.BearerDerivationKey.Reverse().ToArray());
+                var derivation = new Rfc2898DeriveBytes(this.securitySettings.BearerDerivationKey, Encoding.Default.GetBytes(salt), 42);
 
                 return this.encryptByteKey = derivation.GetBytes(256 / 8);
             }
@@ -95,10 +102,8 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
                     return this.signByteKey;
                 }
 
-                var password = "ThisIsMyKeyForDerivation";
-                var salt = new string(password.ToArray());
-
-                var derivation = new Rfc2898DeriveBytes(password, Encoding.Default.GetBytes(salt), 42);
+                var salt = new string(this.securitySettings.BearerDerivationKey.Reverse().ToArray());
+                var derivation = new Rfc2898DeriveBytes(this.securitySettings.BearerDerivationKey, Encoding.Default.GetBytes(salt), 42);
 
                 return this.signByteKey = derivation.GetBytes(512 / 8);
             }
