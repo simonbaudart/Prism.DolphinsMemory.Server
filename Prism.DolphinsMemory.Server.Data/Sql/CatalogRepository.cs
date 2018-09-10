@@ -32,6 +32,15 @@ namespace Prism.DolphinsMemory.Server.Data.Sql
         }
 
         /// <inheritdoc />
+        public void DeleteCatalog(Guid catalogId)
+        {
+            using (var db = this.GetDatabase())
+            {
+                db.Execute("UPDATE Catalog SET Deleted = 1, Updated = @updated WHERE Id = @catalogId", new { updated = DateTime.UtcNow, catalogId });
+            }
+        }
+
+        /// <inheritdoc />
         public List<Catalog> GetCatalogs(Guid userId)
         {
             using (var db = this.GetDatabase())

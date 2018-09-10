@@ -18,6 +18,13 @@ namespace Prism.DolphinsMemory.Server.Business
     public interface ICatalogDomain
     {
         /// <summary>
+        /// Deletes the catalog.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="catalogId">The catalog identifier.</param>
+        void DeleteCatalog(Guid userId, Guid catalogId);
+
+        /// <summary>
         /// Gets the catalogs.
         /// </summary>
         /// <param name="userId">The user identifier.</param>

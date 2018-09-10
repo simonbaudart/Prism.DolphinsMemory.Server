@@ -60,5 +60,21 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
 
             return this.Ok();
         }
+
+        /// <summary>
+        /// Deletes the catalog.
+        /// </summary>
+        /// <param name="catalogId">The catalog identifier.</param>
+        /// <returns>Ok if catalog is deleted</returns>
+        [Route("api/catalogs/{catalogId}")]
+        [HttpDelete]
+        public IActionResult DeleteCatalog(Guid catalogId)
+        {
+            this.EnsureModelState();
+
+            this.catalogDomain.DeleteCatalog(this.UserId, catalogId);
+
+            return this.Ok();
+        }
     }
 }

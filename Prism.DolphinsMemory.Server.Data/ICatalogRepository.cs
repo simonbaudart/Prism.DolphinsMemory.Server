@@ -18,6 +18,12 @@ namespace Prism.DolphinsMemory.Server.Data
     public interface ICatalogRepository
     {
         /// <summary>
+        /// Deletes the catalog.
+        /// </summary>
+        /// <param name="catalogId">The catalog identifier.</param>
+        void DeleteCatalog(Guid catalogId);
+
+        /// <summary>
         /// Gets the catalogs.
         /// </summary>
         /// <param name="userId">The user identifier.</param>

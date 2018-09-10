@@ -33,6 +33,21 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
             this.catalogRepository = catalogRepository;
         }
 
+        public void DeleteCatalog(Guid userId, Guid catalogId)
+        {
+            if (catalogId == default(Guid))
+            {
+                return;
+            }
+
+            if (!this.catalogRepository.IsMyCatalog(userId, catalogId))
+            {
+                return;
+            }
+
+            this.catalogRepository.DeleteCatalog(catalogId);
+        }
+
         /// <inheritdoc />
         public List<Catalog> GetCatalogs(Guid userId)
         {
