@@ -101,6 +101,7 @@ namespace Prism.DolphinsMemory.Server.Api
         {
             services.AddScoped<IAuthenticationDomain, AuthenticationDomain>();
             services.AddScoped<ISecurityDomain, SecurityDomain>();
+            services.AddScoped<ICatalogDomain, CatalogDomain>();
         }
 
         /// <summary>
@@ -121,6 +122,7 @@ namespace Prism.DolphinsMemory.Server.Api
         {
             services.AddScoped<IAuthenticationRepository, AuthenticationRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ICatalogRepository, CatalogRepository>();
         }
     }
 }

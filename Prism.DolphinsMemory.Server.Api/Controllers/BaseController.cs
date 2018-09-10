@@ -8,6 +8,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
 {
     using System;
     using System.Linq;
+    using System.Security.Claims;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,14 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
     [Authorize]
     public abstract class BaseController : Controller
     {
+        /// <summary>
+        /// Gets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
+        protected Guid UserId => this.User.Identity.IsAuthenticated ? Guid.Parse(this.User.FindFirst(ClaimTypes.Sid).Value) : default(Guid);
+
         /// <summary>
         /// Ensures the state of the model.
         /// </summary>
