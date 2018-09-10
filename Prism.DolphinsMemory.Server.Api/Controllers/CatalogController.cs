@@ -12,6 +12,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
     using Microsoft.AspNetCore.Mvc;
 
     using Prism.DolphinsMemory.Server.Business;
+    using Prism.DolphinsMemory.Server.Model;
 
     /// <summary>
     /// Manage the catalogs
@@ -42,6 +43,22 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
         public IActionResult GetCatalogs()
         {
             return this.Json(this.catalogDomain.GetCatalogs(this.UserId));
+        }
+
+        /// <summary>
+        /// Updates the catalog.
+        /// </summary>
+        /// <param name="catalog">The catalog.</param>
+        /// <returns>Ok if catalog is updated</returns>
+        [Route("api/catalogs")]
+        [HttpPost]
+        public IActionResult UpdateCatalog([FromBody] Catalog catalog)
+        {
+            this.EnsureModelState();
+
+            this.catalogDomain.UpsertCatalog(this.UserId, catalog);
+
+            return this.Ok();
         }
     }
 }

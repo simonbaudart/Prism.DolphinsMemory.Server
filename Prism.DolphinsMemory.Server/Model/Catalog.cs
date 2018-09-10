@@ -7,6 +7,7 @@
 namespace Prism.DolphinsMemory.Server.Model
 {
     using System;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Runtime.Serialization;
 
@@ -41,6 +42,8 @@ namespace Prism.DolphinsMemory.Server.Model
         /// The name.
         /// </value>
         [DataMember(Name = "name")]
+        [Required]
+        [MaxLength(8000)]
         public string Name { get; set; }
 
         /// <summary>

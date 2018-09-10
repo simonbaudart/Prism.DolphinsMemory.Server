@@ -23,5 +23,12 @@ namespace Prism.DolphinsMemory.Server.Business
         /// <param name="userId">The user identifier.</param>
         /// <returns>All catalogs for the user</returns>
         List<Catalog> GetCatalogs(Guid userId);
+
+        /// <summary>
+        /// Update or insert the catalog.
+        /// </summary>
+        /// <param name="userId">The user identifier.</param>
+        /// <param name="catalog">The catalog.</param>
+        void UpsertCatalog(Guid userId, Catalog catalog);
     }
 }

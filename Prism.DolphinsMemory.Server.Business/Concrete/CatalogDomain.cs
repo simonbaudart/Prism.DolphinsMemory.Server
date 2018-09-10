@@ -38,5 +38,19 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
         {
             return this.catalogRepository.GetCatalogs(userId);
         }
+
+        /// <inheritdoc />
+        public void UpsertCatalog(Guid userId, Catalog catalog)
+        {
+            if (catalog.Id != default(Guid))
+            {
+                if (!this.catalogRepository.IsMyCatalog(userId, catalog.Id))
+                {
+                    return;
+                }
+            }
+
+            this.catalogRepository.UpsertCatalog(userId, catalog);
+        }
     }
 }
