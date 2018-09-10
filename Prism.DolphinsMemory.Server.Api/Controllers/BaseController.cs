@@ -9,12 +9,14 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
     using System;
     using System.Linq;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
     /// Base class for all controllers
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Mvc.Controller" />
+    [Authorize]
     public abstract class BaseController : Controller
     {
         /// <summary>

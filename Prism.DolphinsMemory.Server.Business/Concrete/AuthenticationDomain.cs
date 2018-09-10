@@ -43,16 +43,6 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
         private readonly SecuritySettings securitySettings;
 
         /// <summary>
-        /// The encrypt byte key
-        /// </summary>
-        private byte[] encryptByteKey;
-
-        /// <summary>
-        /// The sign byte key
-        /// </summary>
-        private byte[] signByteKey;
-
-        /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationDomain" /> class.
         /// </summary>
         /// <param name="userRepository">The user repository.</param>
@@ -63,50 +53,6 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
             this.userRepository = userRepository;
             this.authenticationRepository = authenticationRepository;
             this.securitySettings = securitySettingsOptions.Value;
-        }
-
-        /// <summary>
-        /// Gets the encrypt byte key.
-        /// </summary>
-        /// <value>
-        /// The encrypt byte key.
-        /// </value>
-        private byte[] EncryptByteKey
-        {
-            get
-            {
-                if (this.encryptByteKey != null)
-                {
-                    return this.encryptByteKey;
-                }
-
-                var salt = new string(this.securitySettings.BearerDerivationKey.Reverse().ToArray());
-                var derivation = new Rfc2898DeriveBytes(this.securitySettings.BearerDerivationKey, Encoding.Default.GetBytes(salt), 42);
-
-                return this.encryptByteKey = derivation.GetBytes(256 / 8);
-            }
-        }
-
-        /// <summary>
-        /// Gets the sign byte key.
-        /// </summary>
-        /// <value>
-        /// The sign byte key.
-        /// </value>
-        private byte[] SignByteKey
-        {
-            get
-            {
-                if (this.signByteKey != null)
-                {
-                    return this.signByteKey;
-                }
-
-                var salt = new string(this.securitySettings.BearerDerivationKey.Reverse().ToArray());
-                var derivation = new Rfc2898DeriveBytes(this.securitySettings.BearerDerivationKey, Encoding.Default.GetBytes(salt), 42);
-
-                return this.signByteKey = derivation.GetBytes(512 / 8);
-            }
         }
 
         /// <inheritdoc />
@@ -153,17 +99,17 @@ namespace Prism.DolphinsMemory.Server.Business.Concrete
             handler.SetDefaultTimesOnTokenCreation = true;
             handler.TokenLifetimeInMinutes = 60;
 
-            var signSecurityKey = new SymmetricSecurityKey(this.SignByteKey);
-            var encryptSecurityKey = new SymmetricSecurityKey(this.EncryptByteKey);
+            var signingKey = new SymmetricSecurityKey(KeyGenerator.GetSigninByteKey(this.securitySettings.BearerDerivationKey));
+            var encryptKey = new SymmetricSecurityKey(KeyGenerator.GetEncryptByteKey(this.securitySettings.BearerDerivationKey));
 
-            var signingCredentials = new SigningCredentials(signSecurityKey, SecurityAlgorithms.HmacSha512);
-            var encryptCredentials = new EncryptingCredentials(encryptSecurityKey, SecurityAlgorithms.Aes256KW, SecurityAlgorithms.Aes256CbcHmacSha512);
+            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha512);
+            var encryptCredentials = new EncryptingCredentials(encryptKey, SecurityAlgorithms.Aes256KW, SecurityAlgorithms.Aes256CbcHmacSha512);
 
             var claims = new ClaimsIdentity(
                 new[] { new Claim(ClaimTypes.Sid, userId.ToString()) });
 
             var token = handler.CreateJwtSecurityToken(
-                nameof(AuthenticationDomain),
+                this.securitySettings.Issuer,
                 "api://default",
                 claims,
                 DateTime.UtcNow,

@@ -8,17 +8,21 @@ namespace Prism.DolphinsMemory.Server.Api
 {
     using System;
     using System.Linq;
+    using System.Text;
 
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.IdentityModel.Tokens;
 
     using Prism.DolphinsMemory.Server.Business;
     using Prism.DolphinsMemory.Server.Business.Concrete;
     using Prism.DolphinsMemory.Server.Configuration;
     using Prism.DolphinsMemory.Server.Data;
     using Prism.DolphinsMemory.Server.Data.Sql;
+    using Prism.DolphinsMemory.Server.Security;
 
     /// <summary>
     /// Start the application
@@ -51,6 +55,7 @@ namespace Prism.DolphinsMemory.Server.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseAuthentication();
             app.UseMvc();
         }
 
@@ -60,6 +65,26 @@ namespace Prism.DolphinsMemory.Server.Api
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            var signingKey = new SymmetricSecurityKey(KeyGenerator.GetSigninByteKey(this.configuration["Security:BearerDerivationKey"]));
+            var cryptKey = new SymmetricSecurityKey(KeyGenerator.GetEncryptByteKey(this.configuration["Security:BearerDerivationKey"]));
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(
+                    options =>
+                        {
+                            options.TokenValidationParameters = new TokenValidationParameters
+                                                                    {
+                                                                        ValidateIssuer = true,
+                                                                        ValidateAudience = true,
+                                                                        ValidateLifetime = true,
+                                                                        ValidateIssuerSigningKey = true,
+                                                                        ValidIssuer = this.configuration["Security:Issuer"],
+                                                                        ValidAudience = "api://default",
+                                                                        IssuerSigningKey = signingKey,
+                                                                        TokenDecryptionKey = cryptKey
+                                                                    };
+                        });
+
             services.AddOptions();
             services.AddMvc();
 

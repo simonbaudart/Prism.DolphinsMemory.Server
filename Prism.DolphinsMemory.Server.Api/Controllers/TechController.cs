@@ -9,6 +9,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
     using System;
     using System.Linq;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
     /// <summary>
     /// Class to manage all dev tests
     /// </summary>
-    public class TechController : Controller
+    public class TechController : BaseController
     {
         /// <summary>
         /// The security domain
@@ -47,6 +48,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
         /// <param name="userName">The user identifier.</param>
         /// <returns>The new password</returns>
         [HttpGet]
+        [AllowAnonymous]
         [Route("api/tech/reset-authentication-password/{userName}")]
         public IActionResult ResetAuthenticationPassword(string userName)
         {

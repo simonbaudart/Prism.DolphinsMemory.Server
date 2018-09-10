@@ -21,5 +21,13 @@ namespace Prism.DolphinsMemory.Server.Configuration
         /// The bearer derivation key.
         /// </value>
         public string BearerDerivationKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the issuer.
+        /// </summary>
+        /// <value>
+        /// The issuer.
+        /// </value>
+        public string Issuer { get; set; }
     }
 }

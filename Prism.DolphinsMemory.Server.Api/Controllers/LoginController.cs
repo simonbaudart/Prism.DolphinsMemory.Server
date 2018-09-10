@@ -9,6 +9,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
     using System;
     using System.Linq;
 
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
     using Prism.DolphinsMemory.Server.Business;
@@ -26,7 +27,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
         private readonly IAuthenticationDomain authenticationDomain;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LoginController"/> class.
+        /// Initializes a new instance of the <see cref="LoginController" /> class.
         /// </summary>
         /// <param name="authenticationDomain">The authentication domain.</param>
         public LoginController(IAuthenticationDomain authenticationDomain)
@@ -41,6 +42,7 @@ namespace Prism.DolphinsMemory.Server.Api.Controllers
         /// <returns>The bearer to use in next requests</returns>
         [Route("api/login/authenticate-with-password")]
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult AuthenticateWithPassword([FromBody] UserAuthentication authentication)
         {
             this.EnsureModelState();
